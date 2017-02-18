@@ -1,6 +1,7 @@
 # download_circleci_artifacts plugin
 
 [![fastlane Plugin Badge](https://rawcdn.githack.com/fastlane/fastlane/master/fastlane/assets/plugin-badge.svg)](https://rubygems.org/gems/fastlane-plugin-download_circleci_artifacts)
+[![Gem Version](https://badge.fury.io/rb/fastlane-plugin-download_circleci_artifacts.svg)](https://badge.fury.io/rb/fastlane-plugin-download_circleci_artifacts)
 
 ## Getting Started
 
