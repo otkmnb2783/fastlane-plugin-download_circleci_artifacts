@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gemspec
-gem 'fastlane-plugin-download_file'
 gem 'circleci'
 
 plugins_path = File.join(File.dirname(__FILE__), 'fastlane', 'Pluginfile')
