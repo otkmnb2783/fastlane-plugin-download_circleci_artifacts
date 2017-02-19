@@ -4,6 +4,7 @@ module Fastlane
   module Actions
     class DownloadCircleciArtifactsAction < Action
       def self.run(params)
+        Actions.verify_gem!('circleci')
         configure(params)
         get(params)
       end
@@ -37,7 +38,7 @@ module Fastlane
           destination_path = "#{@dist}/#{artifact[:file]}"
           UI.message download_url
           File.delete(destination_path) if File.exist?(destination_path)
-          DownloadFileAction.run(
+          Actions::DownloadFileAction.run(
             url: download_url,
             destination_path: destination_path
           )
