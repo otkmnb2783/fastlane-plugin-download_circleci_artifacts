@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
   # since this would cause a circular dependency
 
   spec.add_dependency 'circleci'
-  spec.add_dependency 'fastlane-plugin-download_file'
 
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'bundler'
