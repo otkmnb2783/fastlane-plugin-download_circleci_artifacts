@@ -74,7 +74,7 @@ module Fastlane
             if s > partial
               if step.zero?
                 puts '.'
-                partial = partial + (5 * 1024 * 1024)
+                partial += (5 * 1024 * 1024)
                 formatted_file_size = format('%.1f', s.to_f / 2**20)
                 UI.message("download size: #{formatted_file_size} MB")
               else
