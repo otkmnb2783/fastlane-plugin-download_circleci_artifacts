@@ -32,6 +32,11 @@ module Fastlane
                                   env_name: "CIRCLECI_REPOSITORY",
                                description: "repository for Circle CI",
                                       type: String,
+                                  optional: true),
+          FastlaneCore::ConfigItem.new(key: :recent_build_count,
+                                  env_name: "CIRCLECI_RECENT_BUILD_COUNT",
+                               description: "get recent build count",
+                                      type: Integer,
                                   optional: true)
         ]
       end
