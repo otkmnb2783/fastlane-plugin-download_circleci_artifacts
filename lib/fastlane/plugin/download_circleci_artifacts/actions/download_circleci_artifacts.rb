@@ -9,7 +9,7 @@ module Fastlane
         configure(params)
         artifacts = get(params)
         artifacts.each do |artifact|
-          destination_path = "#{@dist}/#{artifact[:file]}"
+          destination_path = File.join(@dist, artifact[:file])
           File.delete(destination_path) if File.exist?(destination_path)
           download_artifact(artifact[:url].to_s, destination_path)
         end
@@ -19,6 +19,7 @@ module Fastlane
         @token = Helper::DownloadCircleciArtifactsHelper.token(params)
         @user = Helper::DownloadCircleciArtifactsHelper.user_name(params)
         @repository = Helper::DownloadCircleciArtifactsHelper.repository(params)
+        @count = Helper::DownloadCircleciArtifactsHelper.recent_build_count(params)
         @file = params[:file]
         @dist = params[:dist]
         UI.user_error! "Set CIRCLECI_TOKEN" if @token.nil? || @token.empty?
@@ -28,6 +29,11 @@ module Fastlane
         UI.message "Repository: #{@repository}"
         UI.message "File: #{@file}"
         UI.message "dist: #{@dist}"
+        UI.message "recent build count: #{@count}"
+        unless File.directory?(@dist)
+          UI.message "create dist dir(#{@dist})"
+          FileUtils.mkdir_p(@dist)
+        end
       end
 
       def self.get(params)
@@ -124,7 +130,12 @@ module Fastlane
                                       type: String,
                               verify_block: proc do |value|
                                 UI.user_error!("No dist for Circle CI given") unless value and !value.empty?
-                              end)
+                              end),
+          FastlaneCore::ConfigItem.new(key: :recent_build_count,
+                                  env_name: "CIRCLECI_RECENT_BUILD_COUNT",
+                               description: "get recent build count",
+                                      type: Integer,
+                                  optional: true)
         ]
       end
 

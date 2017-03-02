@@ -19,6 +19,11 @@ module Fastlane
         params[:repository].nil? ? ENV['CIRCLECI_REPOSITORY'] : params[:repository]
       end
 
+      def self.recent_build_count(params)
+        count = params[:repository].nil? ? ENV['CIRCLECI_RECENT_BUILD_COUNT'] : params[:recent_build_count]
+        count.nil? ? 10 : count.to_i
+      end
+
       def self.convert_to(response)
         rows = []
         response.each_with_index do |build, index|

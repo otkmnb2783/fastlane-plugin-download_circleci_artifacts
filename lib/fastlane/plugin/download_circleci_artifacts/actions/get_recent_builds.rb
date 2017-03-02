@@ -16,6 +16,7 @@ module Fastlane
         @token = Helper::DownloadCircleciArtifactsHelper.token(params)
         @user = Helper::DownloadCircleciArtifactsHelper.user_name(params)
         @repository = Helper::DownloadCircleciArtifactsHelper.repository(params)
+        @count = Helper::DownloadCircleciArtifactsHelper.recent_build_count(params)
         UI.user_error! "Set CIRCLECI_TOKEN" if @token.nil? || @token.empty?
         UI.user_error! "Set CIRCLECI_USER_NAME" if @user.nil? || @user.empty?
         UI.user_error! "Set CIRCLECI_REPOSITORY" if @repository.nil? || @repository.empty?
@@ -34,7 +35,7 @@ module Fastlane
           }
         end
         body = body.select { |e| e[:status] == 'success' }
-        builds = body[0..9]
+        builds = body[0...@count]
         Actions.lane_context[SharedValues::RECENT_BUILDS] = builds
         builds
       end
@@ -62,6 +63,11 @@ module Fastlane
                                   env_name: "CIRCLECI_REPOSITORY",
                                description: "repository for Circle CI",
                                       type: String,
+                                  optional: true),
+          FastlaneCore::ConfigItem.new(key: :recent_build_count,
+                                  env_name: "CIRCLECI_RECENT_BUILD_COUNT",
+                               description: "get recent build count",
+                                      type: Integer,
                                   optional: true)
         ]
       end
