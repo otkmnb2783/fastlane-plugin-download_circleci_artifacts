@@ -1,5 +1,3 @@
-require 'circleci'
-
 module Fastlane
   module Actions
     module SharedValues
@@ -8,6 +6,8 @@ module Fastlane
 
     class GetRecentBuildsAction < Action
       def self.run(params)
+        Actions.verify_gem!('circleci')
+        require 'circleci'
         configure(params)
         get
       end

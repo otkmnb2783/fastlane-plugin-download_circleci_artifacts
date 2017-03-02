@@ -2,10 +2,10 @@ module Fastlane
   module Actions
     class DownloadCircleciArtifactsAction < Action
       def self.run(params)
+        Actions.verify_gem!('circleci')
         require 'circleci'
         require 'open-uri'
         require 'fileutils'
-        Actions.verify_gem!('circleci')
         configure(params)
         artifacts = get(params)
         artifacts.each do |artifact|
