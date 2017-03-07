@@ -28,6 +28,7 @@ module Fastlane
         body = res.body.map do |e|
           {
             num: e['build_num'],
+            finish_time: e['stop_time'],
             branch: e['branch'],
             subject: e['subject'],
             committer: e['committer_name'],

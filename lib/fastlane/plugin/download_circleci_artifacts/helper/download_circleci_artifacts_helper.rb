@@ -27,12 +27,13 @@ module Fastlane
       def self.convert_to(response)
         rows = []
         response.each_with_index do |build, index|
-          rows << [index + 1, build[:num], build[:branch], build[:subject], build[:committer]]
+          time = distance_of_months Time.parse(build[:finish_time])
+          rows << [index + 1, build[:num], time, build[:branch], build[:subject], build[:committer]]
         end
-        rows << [0, "cancel", "", "No selection, exit fastlane!", ""]
+        rows << [0, "cancel", "", "", "No selection, exit fastlane!", ""]
         table = Terminal::Table.new(
           title: 'Circle CI',
-          headings: ['Number', 'Build Number', 'Branch', 'Subject', 'Committer'],
+          headings: ['Number', 'Build Number', 'Build Finish Time', 'Branch', 'Subject', 'Committer'],
           rows: rows
         )
         table
@@ -50,6 +51,17 @@ module Fastlane
           return selection
         else
           UI.user_error! "cancel 🚀"
+        end
+      end
+
+      def self.distance_of_months(from_time, to_time = Time.now)
+        from_time = from_time.to_time if from_time.respond_to?(:to_time)
+        to_time = to_time.to_time if to_time.respond_to?(:to_time)
+        from_time, to_time = to_time, from_time if from_time > to_time
+        distance_in_minutes = ((to_time - from_time) / 60.0).round
+        case distance_in_minutes
+        when 0...1440 then format("%d hr ago", (distance_in_minutes.to_f / 60.0).round)
+        else format("%d days ago(#{from_time.to_time})", (distance_in_minutes.to_f / 1440.0).round)
         end
       end
     end
