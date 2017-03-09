@@ -60,7 +60,8 @@ module Fastlane
         from_time, to_time = to_time, from_time if from_time > to_time
         distance_in_minutes = ((to_time - from_time) / 60.0).round
         case distance_in_minutes
-        when 0...1440 then format("%d hr ago", (distance_in_minutes.to_f / 60.0).round)
+        when 0...60 then format("%d minutes ago", distance_in_minutes)
+        when 61...1440 then format("%d hr ago", (distance_in_minutes.to_f / 60.0).round)
         else format("%d days ago(#{from_time.to_time})", (distance_in_minutes.to_f / 1440.0).round)
         end
       end
