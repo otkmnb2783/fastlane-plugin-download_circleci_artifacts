@@ -6,10 +6,10 @@ require 'fastlane/plugin/download_circleci_artifacts/version'
 Gem::Specification.new do |spec|
   spec.name          = 'fastlane-plugin-download_circleci_artifacts'
   spec.version       = Fastlane::DownloadCircleciArtifacts::VERSION
-  spec.author        = %q{Manabu OHTAKE}
-  spec.email         = %q{manabu2783@hotmail.com}
+  spec.author        = 'Manabu OHTAKE'
+  spec.email         = 'manabu2783@hotmail.com'
 
-  spec.summary       = %q{Downloads a Circle CI artifact's}
+  spec.summary       = 'Downloads a Circle CI artifact\'s'
   spec.homepage      = "https://github.com/otkmnb2783/fastlane-plugin-download_circleci_artifacts"
   spec.license       = "MIT"
 

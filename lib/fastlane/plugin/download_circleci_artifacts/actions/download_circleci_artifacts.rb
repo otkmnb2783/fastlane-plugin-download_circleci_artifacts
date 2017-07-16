@@ -67,7 +67,7 @@ module Fastlane
         File.open(destination_path, "wb") do |saved_file|
           # the following "open" is provided by open-uri
           open(request_url, "User-Agent" => user_agent, "Accept" => accept, :content_length_proc => lambda do |t|
-            if t && 0 < t
+            if t && t > 0
               step = t / 10
               partial = step
               formatted_file_size = format('%.2f', t.to_f / 2**20)
