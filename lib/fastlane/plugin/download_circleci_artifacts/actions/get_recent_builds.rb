@@ -24,7 +24,8 @@ module Fastlane
       end
 
       def self.get
-        res = CircleCi::Project.recent_builds @user, @repository
+        project = CircleCi::Project.new @user, @repository
+        res = project.recent_builds
         body = res.body.map do |e|
           {
             num: e['build_num'],
