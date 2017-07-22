@@ -39,8 +39,8 @@ module Fastlane
       def self.get(params)
         builds = GetRecentBuildsAction.run(params)
         num = Helper::DownloadCircleciArtifactsHelper.show(builds)
-        res = CircleCi::Build.artifacts @user, @repository, num.to_s
-        artifacts = res.body.map { |e| { url: e['url'], file: File.basename(e['path']) } }
+        res = CircleCi::Build.new @user, @repository, nil, num.to_s
+        artifacts = res.artifacts.body.map { |e| { url: e['url'], file: File.basename(e['path']) } }
                        .select { |m| @file.include?(m[:file]) }
         unless artifacts and !artifacts.empty?
           UI.user_error! "Not Found Artifact download url! 🚀"
