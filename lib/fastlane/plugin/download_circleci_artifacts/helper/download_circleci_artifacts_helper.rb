@@ -28,12 +28,23 @@ module Fastlane
         rows = []
         response.each_with_index do |build, index|
           time = distance_of_months Time.parse(build[:finish_time])
-          rows << [index + 1, build[:num], time, build[:branch], build[:subject], build[:committer]]
+          if build[:version] == 2
+            rows << [index + 1, build[:num], time, build[:branch], build[:subject], build[:committer], build[:workflow_name], build[:job_name]]
+          end
+          if build[:version] == 1
+            rows << [index + 1, build[:num], time, build[:branch], build[:subject], build[:committer]]
+          end
         end
         rows << [0, "cancel", "", "", "No selection, exit fastlane!", ""]
+        head = []
+        if rows[0].count == 8
+          head << ['Number', 'Build Number', 'Build Finish Time', 'Branch', 'Subject', 'Committer', 'Workflow Name', 'Job Name']
+        else
+          head << ['Number', 'Build Number', 'Build Finish Time', 'Branch', 'Subject', 'Committer']
+        end
         table = Terminal::Table.new(
           title: 'Circle CI',
-          headings: ['Number', 'Build Number', 'Build Finish Time', 'Branch', 'Subject', 'Committer'],
+          headings: head,
           rows: rows
         )
         table

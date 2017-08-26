@@ -27,7 +27,8 @@ module Fastlane
         project = CircleCi::Project.new @user, @repository
         res = project.recent_builds
         body = res.body.map do |e|
-          {
+          build = {
+            version: e['platform'].to_i,
             num: e['build_num'],
             finish_time: e['stop_time'],
             branch: e['branch'],
@@ -35,6 +36,10 @@ module Fastlane
             committer: e['committer_name'],
             status: e['status']
           }
+          workflows = e['workflows']
+          build[:workflow_name] = !workflows.nil? ? workflows['workflow_name'] : "-"
+          build[:job_name] = !workflows.nil? ? workflows['job_name'] : "-"
+          build
         end
         body = body.select { |e| e[:status] == 'success' }
         builds = body[0...@count]
